@@ -6,6 +6,7 @@ using RoR2;
 using System;
 using UnityEngine;
 
+
 namespace ScannerAtWill
 {
 
@@ -81,8 +82,13 @@ namespace ScannerAtWill
                         }
                         else
                         {
-                            if (interactable.GetComponent<ChestRevealer.RevealedObject>())
-                                Destroy(interactable.GetComponent<ChestRevealer.RevealedObject>());
+                            var revealedObjects = interactable.GetComponentsInChildren<ChestRevealer.RevealedObject>();
+
+                            foreach (var revealedObject in revealedObjects)
+                            {
+                                Destroy(revealedObject);
+                            }
+
                         }
                     }
                 }

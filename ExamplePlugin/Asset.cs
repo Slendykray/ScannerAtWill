@@ -10,14 +10,14 @@ namespace ScannerAtWill
         public static AssetBundle mainBundle;
         //A constant of the AssetBundle's name.
         // Remember this is a direct path, so if your extension is .bundle, call this thing mybundle.bundle
-        public const string bundleName = "ScannerAtWillBundle";
+        public const string bundleName = "ScannerAtWillBundle"; 
         // Uncomment this if your assetbundle is in its own folder. Of course, make sure the name of the folder matches this.
         // public const string assetBundleFolder = "AssetBundles";
 
         //The direct path to your AssetBundle
         public static string AssetBundlePath
         {
-            get
+            get 
             {
                 //This returns the path to your assetbundle assuming said bundle is on the same folder as your DLL. If you have your bundle in a folder, you can instead uncomment the statement below this one.
                 return Path.Combine(Path.GetDirectoryName(typeof(ScannerAtWill).Assembly.Location), bundleName.ToLower());
