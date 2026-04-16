@@ -1,7 +1,7 @@
 ﻿{
 	"name": "ScannerAtWill",
-	"version_number": "1.0.0",
-	"website_url": "",
+	"version_number": "1.0.1",
+	"website_url": "https://github.com/Slendykray/ScannerAtWill",
 	"description": "Adds hotkey to ping all interactables like Radar Scanner would",
 	"dependencies": [
 		"bbepis-BepInExPack-5.4.2108",
