@@ -4,7 +4,11 @@ using RiskOfOptions;
 using RiskOfOptions.Options;
 using RoR2;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
 
 namespace ScannerAtWill
@@ -26,6 +30,23 @@ namespace ScannerAtWill
             InitConfig();
 
             revealed.SettingChanged += Revealed_SettingChanged;
+            SceneManager.activeSceneChanged += OnSceneChanged;
+        }
+
+        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        {
+            if (revealed.Value)
+            {
+                StartCoroutine(DelayedReveal(5f));
+            }
+        }
+        private IEnumerator DelayedReveal(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            if (revealed.Value)
+            {
+                Revealed_SettingChanged(revealed, EventArgs.Empty);
+            }
         }
 
         public static ConfigEntry<bool> revealed; 
@@ -50,6 +71,24 @@ namespace ScannerAtWill
             {
                 Toogle();
             }
+
+            foreach (var revealedObject in revealedObjects)
+            {
+                GameObject parentObj = revealedObject?.gameObject?.transform?.parent?.gameObject;
+
+                if (parentObj != null)
+                {
+                    // 2. Check if the parent has ANY of the component types from the array
+                    Type[] array = ChestRevealer.typesToCheck;
+                    bool hasMatchingComponent = array.Any(type => parentObj.GetComponent(type) != null);
+
+                    // 3. If none of the types exist on the parent, destroy the parent
+                    if (!hasMatchingComponent)
+                    {
+                        GameObject.Destroy(parentObj);
+                    }
+                }
+            }
         }
 
         private void Revealed_SettingChanged(object sender, EventArgs e)
@@ -62,6 +101,7 @@ namespace ScannerAtWill
             revealed.Value = !revealed.Value;
         }
 
+        private List<ChestRevealer.RevealedObject> revealedObjects = new List<ChestRevealer.RevealedObject>();
         void Reveal()
         {
             Type[] array = ChestRevealer.typesToCheck;
@@ -79,10 +119,12 @@ namespace ScannerAtWill
                             revealedObject = interactable.AddComponent<ChestRevealer.RevealedObject>();
 
                             revealedObject.lifetime = Mathf.Infinity;
+
+                            revealedObjects.Add(revealedObject);
                         }
                         else
                         {
-                            var revealedObjects = interactable.GetComponentsInChildren<ChestRevealer.RevealedObject>();
+                            //var revealedObjects = interactable.GetComponentsInChildren<ChestRevealer.RevealedObject>();
 
                             foreach (var revealedObject in revealedObjects)
                             {

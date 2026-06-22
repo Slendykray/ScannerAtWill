@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy &quot;$(ProjectDir)\bin\Debug\netstandard2.1\ScannerAtWill.dll&quot; &quot;$(ProjectDir)..\Thunderstore\plugins&quot; /Y /I&#xD;&#xA;&#xD;&#xA;xcopy &quot;$(ProjectDir)..\Thunderstore\plugins&quot; &quot;C:\Users\Slendykray\Documents\r2profiles\RiskOfRain2\profiles\funnynyny\BepInEx\plugins&quot; /Y /I" />
+		<Exec Command="xcopy &quot;$(ProjectDir)\bin\Debug\netstandard2.1\ScannerAtWill.dll&quot; &quot;$(ProjectDir)..\Thunderstore\plugins&quot; /Y /I&#xD;&#xA;&#xD;&#xA;xcopy &quot;$(ProjectDir)..\Thunderstore\plugins&quot; &quot;C:\Users\Slendykray\Documents\r2profiles\RiskOfRain2\profiles\dev\BepInEx\plugins\Scanner&quot; /Y /I" />
 	</Target>
 
 </Project>
