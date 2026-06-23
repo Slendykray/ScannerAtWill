@@ -1,6 +1,6 @@
 ﻿{
 	"name": "ScannerAtWill",
-	"version_number": "1.0.1",
+	"version_number": "1.1.1",
 	"website_url": "https://github.com/Slendykray/ScannerAtWill",
 	"description": "Adds hotkey to ping all interactables like Radar Scanner would",
 	"dependencies": [

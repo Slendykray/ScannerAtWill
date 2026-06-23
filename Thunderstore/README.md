@@ -9,6 +9,5 @@ Works best with [WolfoQualityOfLife](https://thunderstore.io/package/Wolfo/Wolfo
 # Known "issues"
 
 - toggling will emit radar sound at the center of the map
-- need to re toggle at the start of new stage
 
 probably wont fix these, its good enough
