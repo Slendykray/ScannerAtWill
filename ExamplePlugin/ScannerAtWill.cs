@@ -4,6 +4,7 @@ using RiskOfOptions;
 using RiskOfOptions.Options;
 using RoR2;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -63,45 +64,47 @@ namespace ScannerAtWill
 
         void Reveal()
         {
-            Type[] array = ChestRevealer.typesToCheck;
-            for (int i = 0; i < array.Length; i++)
+            List<IInteractable> instancesList = InterfaceInstanceTracker<IInteractable>.GetInstancesList();
+
+            for (int i = 0; i < instancesList.Count; i++)
             {
-                foreach (MonoBehaviour monoBehaviour in InstanceTracker.FindInstancesEnumerable(array[i]))
+                IInteractable interactable = instancesList[i];
+
+                MonoBehaviour monoBehaviour = interactable as MonoBehaviour;
+
+                GameObject interactableObj = monoBehaviour.gameObject;
+
+                if (interactable.ShouldShowOnScanner())
                 {
-                    GameObject interactable = monoBehaviour.gameObject;
-
-                    if (((IInteractable)monoBehaviour).ShouldShowOnScanner())
+                    if (revealed.Value)
                     {
-                        if (revealed.Value)
-                        {              
-                            if (!interactable.GetComponent<ChestRevealer.RevealedObject>())
-                            {
-                                ChestRevealer.RevealedObject revealedObject;
-                                revealedObject = interactable.AddComponent<ChestRevealer.RevealedObject>();
-
-                                revealedObject.lifetime = Mathf.Infinity;
-                            }             
-                        }
-                        else
+                        if (!interactableObj.GetComponent<ChestRevealer.RevealedObject>())
                         {
-                            var revealedObjects = interactable.GetComponentsInChildren<ChestRevealer.RevealedObject>();
+                            ChestRevealer.RevealedObject revealedObject;
+                            revealedObject = interactableObj.AddComponent<ChestRevealer.RevealedObject>();
 
-                            foreach (var revealedObject in revealedObjects)
-                            {
-                                Destroy(revealedObject);
-                            }
+                            revealedObject.lifetime = Mathf.Infinity;
                         }
                     }
                     else
                     {
-                        if (revealed.Value)
-                        {
-                            var revealedObjects = interactable.GetComponentsInChildren<ChestRevealer.RevealedObject>();
+                        var revealedObjects = interactableObj.GetComponentsInChildren<ChestRevealer.RevealedObject>();
 
-                            foreach (var revealedObject in revealedObjects)
-                            {
-                                Destroy(revealedObject);
-                            }
+                        foreach (var revealedObject in revealedObjects)
+                        {
+                            Destroy(revealedObject);
+                        }
+                    }
+                }
+                else
+                {
+                    if (revealed.Value)
+                    {
+                        var revealedObjects = interactableObj.GetComponentsInChildren<ChestRevealer.RevealedObject>();
+
+                        foreach (var revealedObject in revealedObjects)
+                        {
+                            Destroy(revealedObject);
                         }
                     }
                 }
